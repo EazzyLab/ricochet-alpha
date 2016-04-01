@@ -1,4 +1,4 @@
-//
+    //
 //  AppDelegate.swift
 //  ricochetAlphaNoStoryboard
 //
@@ -10,12 +10,28 @@ import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    
+    var loggedIn:Bool = false
+    
     var window: UIWindow?
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        window?.makeKeyAndVisible()
+        
+        let loginController = LoginViewController()
+        let navigationController:UINavigationController
+        
+        if !loggedIn {
+            navigationController = UINavigationController(rootViewController: loginController)
+        }else {
+            navigationController = UINavigationController(rootViewController: loginController)
+        }
+        
+        window?.rootViewController = navigationController
+        
         return true
     }
 

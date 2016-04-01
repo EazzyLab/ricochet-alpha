@@ -7,18 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DD961A391CAD621C00A5A60E /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD961A381CAD621C00A5A60E /* RegisterViewController.swift */; };
 		DDDF39C31CACB063005460FD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDDF39C21CACB063005460FD /* AppDelegate.swift */; };
-		DDDF39C51CACB063005460FD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDDF39C41CACB063005460FD /* ViewController.swift */; };
-		DDDF39C81CACB063005460FD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DDDF39C61CACB063005460FD /* Main.storyboard */; };
+		DDDF39C51CACB063005460FD /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDDF39C41CACB063005460FD /* LoginViewController.swift */; };
 		DDDF39CA1CACB063005460FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DDDF39C91CACB063005460FD /* Assets.xcassets */; };
 		DDDF39CD1CACB063005460FD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DDDF39CB1CACB063005460FD /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DD961A381CAD621C00A5A60E /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		DDDF39BF1CACB063005460FD /* ricochetAlphaNoStoryboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ricochetAlphaNoStoryboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDDF39C21CACB063005460FD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		DDDF39C41CACB063005460FD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		DDDF39C71CACB063005460FD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		DDDF39C41CACB063005460FD /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		DDDF39C91CACB063005460FD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DDDF39CC1CACB063005460FD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DDDF39CE1CACB063005460FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -55,8 +55,8 @@
 			isa = PBXGroup;
 			children = (
 				DDDF39C21CACB063005460FD /* AppDelegate.swift */,
-				DDDF39C41CACB063005460FD /* ViewController.swift */,
-				DDDF39C61CACB063005460FD /* Main.storyboard */,
+				DDDF39C41CACB063005460FD /* LoginViewController.swift */,
+				DD961A381CAD621C00A5A60E /* RegisterViewController.swift */,
 				DDDF39C91CACB063005460FD /* Assets.xcassets */,
 				DDDF39CB1CACB063005460FD /* LaunchScreen.storyboard */,
 				DDDF39CE1CACB063005460FD /* Info.plist */,
@@ -125,7 +125,6 @@
 			files = (
 				DDDF39CD1CACB063005460FD /* LaunchScreen.storyboard in Resources */,
 				DDDF39CA1CACB063005460FD /* Assets.xcassets in Resources */,
-				DDDF39C81CACB063005460FD /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,7 +135,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DDDF39C51CACB063005460FD /* ViewController.swift in Sources */,
+				DD961A391CAD621C00A5A60E /* RegisterViewController.swift in Sources */,
+				DDDF39C51CACB063005460FD /* LoginViewController.swift in Sources */,
 				DDDF39C31CACB063005460FD /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -144,14 +144,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		DDDF39C61CACB063005460FD /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				DDDF39C71CACB063005460FD /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		DDDF39CB1CACB063005460FD /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -289,6 +281,7 @@
 				DDDF39D31CACB063005460FD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
