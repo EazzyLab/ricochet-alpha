@@ -7,18 +7,57 @@
 //
 
 import UIKit
+import AVFoundation
 
 
 
 class LoginViewController: UIViewController {
+    
+    var avPlayer: AVPlayer!
+    var avPlayerLayer: AVPlayerLayer!
+    var paused:Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         self.navigationController?.navigationBar.hidden = true
         self.hideKeyboardWhenTappedAround()
+        
+        let theUrl = NSBundle.mainBundle().URLForResource("loginBackground", withExtension: "mp4")
+        
+        avPlayer = AVPlayer(URL: theUrl!)
+        avPlayerLayer = AVPlayerLayer(player: avPlayer)
+        avPlayerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
+        avPlayer.volume = 0
+        avPlayer.actionAtItemEnd = AVPlayerActionAtItemEnd.None
+        
+        avPlayerLayer.frame = view.layer.bounds
+        view.backgroundColor = UIColor.clearColor();
+        view.layer.insertSublayer(avPlayerLayer, atIndex: 0)
+        
+        
+        NSNotificationCenter.defaultCenter().addObserver(self,
+                                                         selector: #selector(LoginViewController.playerItemDidReachEnd(_:)),
+                                                         name: AVPlayerItemDidPlayToEndTimeNotification,
+                                                         object: avPlayer.currentItem)
+        
         setupViews()
         
+    }
+    
+    func playerItemDidReachEnd(notification: NSNotification) {
+        let p: AVPlayerItem = notification.object as! AVPlayerItem
+        p.seekToTime(kCMTimeZero)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        avPlayer.play()
+        paused = false
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        avPlayer.pause()
+        paused = true
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -120,7 +159,7 @@ class LoginViewController: UIViewController {
     }()
     func setupViews() {
         
-        view.backgroundColor = UIColor(red: 191/255, green: 24/255, blue: 221/255, alpha: 1)
+//        view.backgroundColor = UIColor(red: 191/255, green: 24/255, blue: 221/255, alpha: 1)
         
         view.addSubview(logoImageView)
         view.addSubview(usernameTextField)
@@ -151,7 +190,7 @@ class LoginViewController: UIViewController {
         view.addConstraintsWithFormat("H:[v0(250)]", options: nil, views: registerButton)
         view.addConstraintsWithFormat("H:[v0(250)]", options: nil, views: takeTourButton)
 
-        view.addConstraintsWithFormat("V:|-100-[v0(50)]-20-[v1(35)]-10-[v2(35)]-10-[v3(35)]-10-[v4(15)]-5-[v5(15)]-5-[v6(15)]", options: nil, views: logoImageView, usernameTextField, passwordTextField, loginButton, forgotPasswordButton, registerButton, takeTourButton)
+        view.addConstraintsWithFormat("V:|-175-[v0(50)]-15-[v1(35)]-10-[v2(35)]-10-[v3(35)]-10-[v4(15)]-5-[v5(15)]-5-[v6(15)]", options: nil, views: logoImageView, usernameTextField, passwordTextField, loginButton, forgotPasswordButton, registerButton, takeTourButton)
         
   
     }
