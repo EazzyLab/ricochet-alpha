@@ -30,6 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             navigationController = UINavigationController(rootViewController: loginController)
         }
         
+        application.statusBarHidden = true
         window?.rootViewController = navigationController
         
         return true

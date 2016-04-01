@@ -15,38 +15,56 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        self.navigationController?.navigationBar.hidden = true
         self.hideKeyboardWhenTappedAround()
         setupViews()
         
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(true)
+        
+       UIApplication.sharedApplication().statusBarHidden = true
     }
     
-    let usernameTextField: UITextField = {
+    let logoImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .ScaleAspectFit
+        imageView.image = UIImage(named: "logoRicochet")
         
-        let textField = UITextField()
-        textField.placeholder = "Username"
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.borderStyle = .RoundedRect
-        textField.keyboardType = .Default
-        textField.autocorrectionType = .No
+        return imageView
+    }()
 
+        let usernameTextField: CustomTextField = {
+        let textField = CustomTextField()
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.placeholder = "Username"
+        textField.layer.cornerRadius = 5
+        textField.backgroundColor = UIColor(white: 1, alpha: 0.2)
+        textField.setValue(UIColor.whiteColor(), forKeyPath: "_placeholderLabel.textColor")
+        textField.textColor = UIColor.whiteColor()
+        textField.clearButtonMode = .WhileEditing
+        textField.autocorrectionType = .No
+        textField.font = UIFont.systemFontOfSize(14)
+        textField.tintColor = UIColor.whiteColor()
+        
         return textField
     }()
     
-    let passwordTextField: UITextField = {
-        
-        let textField = UITextField()
-        textField.placeholder = "Password"
+    let passwordTextField: CustomTextField = {
+        let textField = CustomTextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.borderStyle = .RoundedRect
-        textField.keyboardType = .Default
+        textField.placeholder = "Password"
+        textField.layer.cornerRadius = 5
+        textField.backgroundColor = UIColor(white: 1, alpha: 0.2)
+        textField.setValue(UIColor.whiteColor(), forKeyPath: "_placeholderLabel.textColor")
+        textField.textColor = UIColor.whiteColor()
+        textField.clearButtonMode = .WhileEditing
         textField.autocorrectionType = .No
-        textField.secureTextEntry = true
-    
+        textField.font = UIFont.systemFontOfSize(14)
+        textField.tintColor = UIColor.whiteColor()
+        
         return textField
     }()
     
@@ -54,68 +72,107 @@ class LoginViewController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Login", forState: .Normal)
-        button.setTitleColor(UIColor.blueColor(), forState: .Normal)
-        button.setTitleColor(UIColor.blackColor(), forState: .Highlighted)
+        button.backgroundColor = UIColor.clearColor()
+        button.titleLabel?.font = UIFont.boldSystemFontOfSize(13)
+        button.layer.cornerRadius = 5
+        button.layer.borderColor = UIColor(white: 1.0, alpha: 0.3).CGColor
+        button.layer.borderWidth = 2.0
+        button.setTitleColor(UIColor(white: 1.0, alpha: 0.3), forState: .Normal)
+        
+        
+        return button
+    }()
+    
+    let forgotPasswordButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Forgot your password ?", forState: .Normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitleColor(UIColor(white: 1.0, alpha: 1.0), forState: .Normal)
+        button.setTitleColor(UIColor(white: 1.0, alpha: 0.5), forState: .Highlighted)
+        button.titleLabel?.font = UIFont.systemFontOfSize(13)
         button.titleLabel?.textAlignment = .Center
         
-
         return button
     }()
     
-    func loginButtonClicked(sender: UIButton!) {
-        
-        let registerViewController: UIViewController = RegisterViewController()
-        navigationController?.pushViewController(registerViewController, animated: true)
-        
-    }
-    
-    let facebookButton: UIButton = {
+    let registerButton: UIButton = {
         let button = UIButton()
-        button.setBackgroundImage(UIImage(named: "fblogin"), forState: .Normal)
+        button.setTitle("You don't have an account ? Sign up.", forState: .Normal)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitleColor(UIColor(white: 1.0, alpha: 1.0), forState: .Normal)
+        button.setTitleColor(UIColor(white: 1.0, alpha: 0.5), forState: .Highlighted)
+        button.titleLabel?.font = UIFont.systemFontOfSize(13)
+        button.titleLabel?.textAlignment = .Center
         
         return button
     }()
     
-    
+    let takeTourButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Take a tour without signing in !", forState: .Normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitleColor(UIColor(white: 1.0, alpha: 1.0), forState: .Normal)
+        button.setTitleColor(UIColor(white: 1.0, alpha: 0.5), forState: .Highlighted)
+        button.titleLabel?.font = UIFont.systemFontOfSize(13)
+        button.titleLabel?.textAlignment = .Center
+        
+        return button
+    }()
     func setupViews() {
         
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = UIColor(red: 191/255, green: 24/255, blue: 221/255, alpha: 1)
         
+        view.addSubview(logoImageView)
         view.addSubview(usernameTextField)
         view.addSubview(passwordTextField)
         view.addSubview(loginButton)
-        view.addSubview(facebookButton)
+        view.addSubview(forgotPasswordButton)
+        view.addSubview(registerButton)
+        view.addSubview(takeTourButton)
         
-        loginButton.addTarget(self, action: #selector(LoginViewController.loginButtonClicked(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        usernameTextField.addTarget(self, action: #selector(LoginViewController.updateUsernameTextField), forControlEvents: .EditingChanged)
+        passwordTextField.addTarget(self, action: #selector(LoginViewController.updatePasswordTextField), forControlEvents: .EditingChanged)
         
-        
-        //horizontal constraints
-        view.addConstraintsWithFormat("H:|-8-[v0]-8-|", options: nil, views: usernameTextField)
-        view.addConstraintsWithFormat("H:|-8-[v0]-8-|", options: nil, views: passwordTextField)
-        
-        //defining the (horizontal) size
-        view.addConstraintsWithFormat("H:[v0(250)]", options: nil, views: facebookButton)
-        view.addConstraintsWithFormat("H:[v0(75)]", options: nil, views: loginButton)
+   
+    
+        view.centerHorizontallyWithSize(self.view, newView: logoImageView, size: nil)
+        view.centerHorizontallyWithSize(self.view, newView: usernameTextField, size: nil)
+        view.centerHorizontallyWithSize(self.view, newView: passwordTextField, size: nil)
+        view.centerHorizontallyWithSize(self.view, newView: loginButton, size: nil)
+        view.centerHorizontallyWithSize(self.view, newView: forgotPasswordButton, size: nil)
+        view.centerHorizontallyWithSize(self.view, newView: registerButton, size: nil)
+        view.centerHorizontallyWithSize(self.view, newView: takeTourButton, size: nil)
+    
+        view.addConstraintsWithFormat("H:[v0(250)]", options: nil, views: usernameTextField)
+        view.addConstraintsWithFormat("H:[v0(250)]", options: nil, views: passwordTextField)
+        view.addConstraintsWithFormat("H:[v0(150)]", options: nil, views: logoImageView)
+        view.addConstraintsWithFormat("H:[v0(250)]", options: nil, views: loginButton)
+        view.addConstraintsWithFormat("H:[v0(250)]", options: nil, views: forgotPasswordButton)
+        view.addConstraintsWithFormat("H:[v0(250)]", options: nil, views: registerButton)
+        view.addConstraintsWithFormat("H:[v0(250)]", options: nil, views: takeTourButton)
 
-
+        view.addConstraintsWithFormat("V:|-100-[v0(50)]-20-[v1(35)]-10-[v2(35)]-10-[v3(35)]-10-[v4(15)]-5-[v5(15)]-5-[v6(15)]", options: nil, views: logoImageView, usernameTextField, passwordTextField, loginButton, forgotPasswordButton, registerButton, takeTourButton)
         
-        
-        //vertical constraints
-        view.addConstraintsWithFormat("V:|-80-[v0(50)]-8-[v1(50)]-10-[v2]", options: nil, views: usernameTextField, passwordTextField, loginButton)
-
-        //defining the (vertical) size
-
-        //center button (x,y or both)
-         view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[view]-(<=0)-[newView(75)]", options: NSLayoutFormatOptions.AlignAllCenterX, metrics: nil, views: ["view": self.view, "newView": facebookButton]))
-        
-         view.centerHorizontallyWithSize(self.view, newView: loginButton, size: 45)
-        
-        
-       
+  
     }
-
-
+    
+    func updatePasswordTextField() {
+        if passwordTextField.text == "" {
+            loginButton.setTitleColor(UIColor(white: 1, alpha: 0.3), forState: .Normal)
+        }else {
+            loginButton.setTitleColor(UIColor(white: 1, alpha: 1), forState: .Normal)
+        }
+    
+    }
+    
+    func updateUsernameTextField() {
+        if usernameTextField.text == "" {
+            loginButton.setTitleColor(UIColor(white: 1, alpha: 0.3), forState: .Normal)
+        }else {
+            loginButton.setTitleColor(UIColor(white: 1, alpha: 1), forState: .Normal)
+        }
+        
+    }
 }
 extension UIViewController {
 
@@ -131,8 +188,14 @@ extension UIViewController {
 }
 extension UIView {
 
-    func centerHorizontallyWithSize(superView: UIView, newView: UIView, size: NSInteger) {
-        let format = "V:[view]-(<=0)-[newView(\(size))]"
+    func centerHorizontallyWithSize(superView: UIView, newView: UIView, size: NSInteger?) {
+        
+        var format:String
+        if let specifiedSize = size {
+             format = "V:[view]-(<=0)-[newView(\(specifiedSize))]"
+        }else {
+             format = "V:[view]-(<=0)-[newView]"
+        }
         superView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(format, options: NSLayoutFormatOptions.AlignAllCenterX, metrics: nil, views: ["view": superView, "newView": newView]))
     
     }
@@ -149,3 +212,29 @@ extension UIView {
     }
 }
 
+class CustomTextField: UITextField {
+    
+    let padding = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 5);
+    
+    override func textRectForBounds(bounds: CGRect) -> CGRect {
+        return self.newBounds(bounds)
+    }
+    
+    override func placeholderRectForBounds(bounds: CGRect) -> CGRect {
+        return self.newBounds(bounds)
+    }
+    
+    override func editingRectForBounds(bounds: CGRect) -> CGRect {
+        return self.newBounds(bounds)
+    }
+    
+    private func newBounds(bounds: CGRect) -> CGRect {
+        
+        var newBounds = bounds
+        newBounds.origin.x += padding.left
+        newBounds.origin.y += padding.top
+        newBounds.size.height -= padding.top + padding.bottom
+        newBounds.size.width -= padding.left + padding.right
+        return newBounds
+    }
+}
