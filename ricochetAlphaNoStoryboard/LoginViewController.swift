@@ -13,16 +13,23 @@ import AVFoundation
 
 class LoginViewController: UIViewController {
     
+    var keyoardNotificationBool: Bool!
+    
     var avPlayer: AVPlayer!
     var avPlayerLayer: AVPlayerLayer!
     var paused:Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         // Do any additional setup after loading the view, typically from a nib.
+        
         self.navigationController?.navigationBar.hidden = true
         self.hideKeyboardWhenTappedAround()
         
+        keyoardNotificationBool = true
+        
+        //section for background video
         let theUrl = NSBundle.mainBundle().URLForResource("loginBackground", withExtension: "mp4")
         
         avPlayer = AVPlayer(URL: theUrl!)
@@ -41,13 +48,12 @@ class LoginViewController: UIViewController {
                                                          name: AVPlayerItemDidPlayToEndTimeNotification,
                                                          object: avPlayer.currentItem)
         
+        //section for animated keyboard
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LoginViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LoginViewController.keybowrdWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        
         setupViews()
         
-    }
-    
-    func playerItemDidReachEnd(notification: NSNotification) {
-        let p: AVPlayerItem = notification.object as! AVPlayerItem
-        p.seekToTime(kCMTimeZero)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -159,7 +165,6 @@ class LoginViewController: UIViewController {
     }()
     func setupViews() {
         
-//        view.backgroundColor = UIColor(red: 191/255, green: 24/255, blue: 221/255, alpha: 1)
         
         view.addSubview(logoImageView)
         view.addSubview(usernameTextField)
@@ -171,6 +176,7 @@ class LoginViewController: UIViewController {
         
         usernameTextField.addTarget(self, action: #selector(LoginViewController.updateUsernameTextField), forControlEvents: .EditingChanged)
         passwordTextField.addTarget(self, action: #selector(LoginViewController.updatePasswordTextField), forControlEvents: .EditingChanged)
+        registerButton.addTarget(self, action: #selector(LoginViewController.registerButtonClick(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         
    
     
@@ -190,27 +196,55 @@ class LoginViewController: UIViewController {
         view.addConstraintsWithFormat("H:[v0(250)]", options: nil, views: registerButton)
         view.addConstraintsWithFormat("H:[v0(250)]", options: nil, views: takeTourButton)
 
-        view.addConstraintsWithFormat("V:|-175-[v0(50)]-15-[v1(35)]-10-[v2(35)]-10-[v3(35)]-10-[v4(15)]-5-[v5(15)]-5-[v6(15)]", options: nil, views: logoImageView, usernameTextField, passwordTextField, loginButton, forgotPasswordButton, registerButton, takeTourButton)
+        view.addConstraintsWithFormat("V:|-200-[v0(50)]-15-[v1(35)]-10-[v2(35)]-10-[v3(35)]-10-[v4(15)]-5-[v5(15)]-5-[v6(15)]", options: nil, views: logoImageView, usernameTextField, passwordTextField, loginButton, forgotPasswordButton, registerButton, takeTourButton)
         
   
     }
     
     func updatePasswordTextField() {
-        if passwordTextField.text == "" {
+        if passwordTextField.text == "" || usernameTextField.text == "" {
             loginButton.setTitleColor(UIColor(white: 1, alpha: 0.3), forState: .Normal)
         }else {
             loginButton.setTitleColor(UIColor(white: 1, alpha: 1), forState: .Normal)
         }
-    
     }
     
     func updateUsernameTextField() {
-        if usernameTextField.text == "" {
+        if usernameTextField.text == "" || passwordTextField.text == "" {
             loginButton.setTitleColor(UIColor(white: 1, alpha: 0.3), forState: .Normal)
         }else {
             loginButton.setTitleColor(UIColor(white: 1, alpha: 1), forState: .Normal)
         }
+    }
+    
+    func registerButtonClick(sender: UIButton!) {
         
+        let registerViewController = RegisterViewController()
+        navigationController?.pushViewController(registerViewController, animated: true)
+    }
+    
+    func playerItemDidReachEnd(notification: NSNotification) {
+        let p: AVPlayerItem = notification.object as! AVPlayerItem
+        p.seekToTime(kCMTimeZero)
+    }
+    
+    func keyboardWillShow(notification: NSNotification) {
+        
+        if keyoardNotificationBool == true {
+            if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+                self.view.frame.origin.y -= keyboardSize.height
+            }
+            keyoardNotificationBool = false
+        }
+    }
+    
+    func keybowrdWillHide(notification: NSNotification) {
+        if keyoardNotificationBool == false {
+            if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+                self.view.frame.origin.y += keyboardSize.height
+            }
+            keyoardNotificationBool = true
+        }
     }
 }
 extension UIViewController {

@@ -14,6 +14,7 @@ class RegisterViewController: UIViewController {
         super.viewDidLoad()
         //#selector(LoginViewController.loginButtonClicked(_:))
         
+        
         let style: UIBarButtonItemStyle = .Plain
         let testNavBarButton: UIBarButtonItem = UIBarButtonItem(title: "Done", style: style, target: self, action: #selector(RegisterViewController.printTest(_:)))
 
