@@ -57,6 +57,11 @@ class LoginViewController: UIViewController {
         
     }
     
+    deinit {
+    
+        print("deInit login View Controller")
+    }
+    
     override func viewDidAppear(animated: Bool) {
         avPlayer.play()
         paused = false
@@ -125,6 +130,7 @@ class LoginViewController: UIViewController {
         button.layer.borderColor = UIColor(white: 1.0, alpha: 0.3).CGColor
         button.layer.borderWidth = 2.0
         button.setTitleColor(UIColor(white: 1.0, alpha: 0.3), forState: .Normal)
+        button.userInteractionEnabled = false
         
         
         return button
@@ -165,6 +171,14 @@ class LoginViewController: UIViewController {
         
         return button
     }()
+    
+    let loginActivityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.color = UIColor(white: 1, alpha: 1)
+        activityIndicator.hidesWhenStopped = true
+    
+        return activityIndicator
+    }()
     func setupViews() {
         
         
@@ -175,10 +189,12 @@ class LoginViewController: UIViewController {
         view.addSubview(forgotPasswordButton)
         view.addSubview(registerButton)
         view.addSubview(takeTourButton)
+        view.addSubview(loginActivityIndicator)
         
         usernameTextField.addTarget(self, action: #selector(LoginViewController.updateUsernameTextField), forControlEvents: .EditingChanged)
         passwordTextField.addTarget(self, action: #selector(LoginViewController.updatePasswordTextField), forControlEvents: .EditingChanged)
         registerButton.addTarget(self, action: #selector(LoginViewController.registerButtonClick(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        loginButton.addTarget(self, action: #selector(self.loginButtonClicked(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         
    
     
@@ -189,6 +205,7 @@ class LoginViewController: UIViewController {
         view.centerHorizontallyWithSize(self.view, newView: forgotPasswordButton, size: nil)
         view.centerHorizontallyWithSize(self.view, newView: registerButton, size: nil)
         view.centerHorizontallyWithSize(self.view, newView: takeTourButton, size: nil)
+        view.centerHorizontallyWithSize(self.view, newView: loginActivityIndicator, size: nil)
     
         view.addConstraintsWithFormat("H:[v0(250)]", options: nil, views: usernameTextField)
         view.addConstraintsWithFormat("H:[v0(250)]", options: nil, views: passwordTextField)
@@ -199,23 +216,49 @@ class LoginViewController: UIViewController {
         view.addConstraintsWithFormat("H:[v0(250)]", options: nil, views: takeTourButton)
 
         view.addConstraintsWithFormat("V:|-200-[v0(50)]-15-[v1(35)]-10-[v2(35)]-10-[v3(35)]-10-[v4(15)]-5-[v5(15)]-5-[v6(15)]", options: nil, views: logoImageView, usernameTextField, passwordTextField, loginButton, forgotPasswordButton, registerButton, takeTourButton)
+        view.addConstraintsWithFormat("V:|-356-[v0(35)]", options: nil, views: loginActivityIndicator)
+
         
   
+    }
+    
+    func loginButtonClicked(sender: UIButton!) {
+        loginButton.setTitle("", forState: .Normal)
+        loginActivityIndicator.startAnimating()
+        
+        if usernameTextField.text == "Anjou" && passwordTextField.text == "Password" {
+            loginActivityIndicator.stopAnimating()
+            loginButton.setTitle("Login", forState: .Normal)
+            let registerController = RegisterViewController()
+            navigationController?.pushViewController(registerController, animated: true)
+        }else {
+            loginActivityIndicator.stopAnimating()
+            usernameTextField.text = ""
+            passwordTextField.text = ""
+            let alertWrongCredentials = UIAlertController(title: "Wrong credentials", message: "Incorrect login credentials", preferredStyle: .Alert)
+            alertWrongCredentials.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+            loginButton.setTitle("Login", forState: .Normal)
+            presentViewController(alertWrongCredentials, animated: true, completion: nil)
+        }
     }
     
     func updatePasswordTextField() {
         if passwordTextField.text == "" || usernameTextField.text == "" {
             loginButton.setTitleColor(UIColor(white: 1, alpha: 0.3), forState: .Normal)
+            loginButton.userInteractionEnabled = false
         }else {
             loginButton.setTitleColor(UIColor(white: 1, alpha: 1), forState: .Normal)
+            loginButton.userInteractionEnabled = true
         }
     }
     
     func updateUsernameTextField() {
         if usernameTextField.text == "" || passwordTextField.text == "" {
             loginButton.setTitleColor(UIColor(white: 1, alpha: 0.3), forState: .Normal)
+            loginButton.userInteractionEnabled = false
         }else {
             loginButton.setTitleColor(UIColor(white: 1, alpha: 1), forState: .Normal)
+            loginButton.userInteractionEnabled = true
         }
     }
     

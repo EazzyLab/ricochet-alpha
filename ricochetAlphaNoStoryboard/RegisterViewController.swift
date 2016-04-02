@@ -60,7 +60,10 @@ class RegisterViewController: UIViewController {
         setupViews()
     }
     
+    deinit {
     
+        print("deinit register View Controller")    
+    }
     override func viewDidAppear(animated: Bool) {
         avPlayer.play()
         paused = false
