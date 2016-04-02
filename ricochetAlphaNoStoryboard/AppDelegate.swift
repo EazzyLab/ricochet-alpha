@@ -22,6 +22,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         
         let loginController = LoginViewController()
+        
+        //loading directly woarking view
+//        let registerController = RegisterViewController()
         let navigationController:UINavigationController
         
         if !loggedIn {

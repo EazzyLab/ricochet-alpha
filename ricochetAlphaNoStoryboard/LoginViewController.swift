@@ -24,6 +24,7 @@ class LoginViewController: UIViewController {
         
         // Do any additional setup after loading the view, typically from a nib.
         
+        
         self.navigationController?.navigationBar.hidden = true
         self.hideKeyboardWhenTappedAround()
         
@@ -50,7 +51,7 @@ class LoginViewController: UIViewController {
         
         //section for animated keyboard
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LoginViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LoginViewController.keybowrdWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LoginViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
         
         setupViews()
         
@@ -109,6 +110,7 @@ class LoginViewController: UIViewController {
         textField.autocorrectionType = .No
         textField.font = UIFont.systemFontOfSize(14)
         textField.tintColor = UIColor.whiteColor()
+        textField.secureTextEntry = true
         
         return textField
     }()
@@ -220,7 +222,7 @@ class LoginViewController: UIViewController {
     func registerButtonClick(sender: UIButton!) {
         
         let registerViewController = RegisterViewController()
-        navigationController?.pushViewController(registerViewController, animated: true)
+        navigationController?.pushViewController(registerViewController, animated: false)
     }
     
     func playerItemDidReachEnd(notification: NSNotification) {
@@ -238,7 +240,7 @@ class LoginViewController: UIViewController {
         }
     }
     
-    func keybowrdWillHide(notification: NSNotification) {
+    func keyboardWillHide(notification: NSNotification) {
         if keyoardNotificationBool == false {
             if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
                 self.view.frame.origin.y += keyboardSize.height
