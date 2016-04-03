@@ -14,10 +14,6 @@ import AVFoundation
 class LoginViewController: UIViewController {
     
     var keyoardNotificationBool: Bool!
-    
-    var avPlayer: AVPlayer!
-    var avPlayerLayer: AVPlayerLayer!
-    var paused:Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,25 +25,7 @@ class LoginViewController: UIViewController {
         self.hideKeyboardWhenTappedAround()
         
         keyoardNotificationBool = true
-        
-        //section for background video
-        let theUrl = NSBundle.mainBundle().URLForResource("loginBackground", withExtension: "mp4")
-        
-        avPlayer = AVPlayer(URL: theUrl!)
-        avPlayerLayer = AVPlayerLayer(player: avPlayer)
-        avPlayerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
-        avPlayer.volume = 0
-        avPlayer.actionAtItemEnd = AVPlayerActionAtItemEnd.None
-        
-        avPlayerLayer.frame = view.layer.bounds
-        view.backgroundColor = UIColor.clearColor();
-        view.layer.insertSublayer(avPlayerLayer, atIndex: 0)
-        
-        
-        NSNotificationCenter.defaultCenter().addObserver(self,
-                                                         selector: #selector(LoginViewController.playerItemDidReachEnd(_:)),
-                                                         name: AVPlayerItemDidPlayToEndTimeNotification,
-                                                         object: avPlayer.currentItem)
+
         
         //section for animated keyboard
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LoginViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
@@ -63,13 +41,10 @@ class LoginViewController: UIViewController {
     }
     
     override func viewDidAppear(animated: Bool) {
-        avPlayer.play()
-        paused = false
+
     }
     
     override func viewDidDisappear(animated: Bool) {
-        avPlayer.pause()
-        paused = true
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -77,6 +52,15 @@ class LoginViewController: UIViewController {
         
        UIApplication.sharedApplication().statusBarHidden = true
     }
+    
+    let backgroundImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = UIImage(named: "backgroundLogin")
+        imageView.contentMode = .ScaleAspectFill
+        
+        return imageView
+        }()
     
     let logoImageView: UIImageView = {
         let imageView = UIImageView()
@@ -181,7 +165,7 @@ class LoginViewController: UIViewController {
     }()
     func setupViews() {
         
-        
+        view.addSubview(backgroundImageView)
         view.addSubview(logoImageView)
         view.addSubview(usernameTextField)
         view.addSubview(passwordTextField)
@@ -206,7 +190,8 @@ class LoginViewController: UIViewController {
         view.centerHorizontallyWithSize(self.view, newView: registerButton, size: nil)
         view.centerHorizontallyWithSize(self.view, newView: takeTourButton, size: nil)
         view.centerHorizontallyWithSize(self.view, newView: loginActivityIndicator, size: nil)
-    
+        
+        view.addConstraintsWithFormat("H:|[v0]|", options: nil, views: backgroundImageView)
         view.addConstraintsWithFormat("H:[v0(250)]", options: nil, views: usernameTextField)
         view.addConstraintsWithFormat("H:[v0(250)]", options: nil, views: passwordTextField)
         view.addConstraintsWithFormat("H:[v0(150)]", options: nil, views: logoImageView)
@@ -215,6 +200,7 @@ class LoginViewController: UIViewController {
         view.addConstraintsWithFormat("H:[v0(250)]", options: nil, views: registerButton)
         view.addConstraintsWithFormat("H:[v0(250)]", options: nil, views: takeTourButton)
 
+        view.addConstraintsWithFormat("V:|[v0]|", options: nil, views: backgroundImageView)
         view.addConstraintsWithFormat("V:|-200-[v0(50)]-15-[v1(35)]-10-[v2(35)]-10-[v3(35)]-10-[v4(15)]-5-[v5(15)]-5-[v6(15)]", options: nil, views: logoImageView, usernameTextField, passwordTextField, loginButton, forgotPasswordButton, registerButton, takeTourButton)
         view.addConstraintsWithFormat("V:|-356-[v0(35)]", options: nil, views: loginActivityIndicator)
 
@@ -227,10 +213,10 @@ class LoginViewController: UIViewController {
         loginActivityIndicator.startAnimating()
         
         if usernameTextField.text == "Anjou" && passwordTextField.text == "Password" {
+            loggedIn = true
             loginActivityIndicator.stopAnimating()
-            loginButton.setTitle("Login", forState: .Normal)
-            let registerController = RegisterViewController()
-            navigationController?.pushViewController(registerController, animated: true)
+            navigationController?.popViewControllerAnimated(true)
+            
         }else {
             loginActivityIndicator.stopAnimating()
             usernameTextField.text = ""
@@ -265,13 +251,13 @@ class LoginViewController: UIViewController {
     func registerButtonClick(sender: UIButton!) {
         
         let registerViewController = RegisterViewController()
-        navigationController?.pushViewController(registerViewController, animated: false)
+        navigationController?.pushViewController(registerViewController, animated: true)
+        
+        let vcArray = self.navigationController?.viewControllers
+        print(vcArray)
+    
     }
     
-    func playerItemDidReachEnd(notification: NSNotification) {
-        let p: AVPlayerItem = notification.object as! AVPlayerItem
-        p.seekToTime(kCMTimeZero)
-    }
     
     func keyboardWillShow(notification: NSNotification) {
         

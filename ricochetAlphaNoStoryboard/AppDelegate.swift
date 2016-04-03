@@ -11,7 +11,6 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
-    var loggedIn:Bool = false
     
     var window: UIWindow?
 
@@ -21,17 +20,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         window?.makeKeyAndVisible()
         
-        let loginController = LoginViewController()
+        let mainController = MainViewController()
         
         //loading directly woarking view
 //        let registerController = RegisterViewController()
         let navigationController:UINavigationController
         
-        if !loggedIn {
-            navigationController = UINavigationController(rootViewController: loginController)
-        }else {
-            navigationController = UINavigationController(rootViewController: loginController)
-        }
+        navigationController = UINavigationController(rootViewController: mainController)
+       
         
         application.statusBarHidden = true
         window?.rootViewController = navigationController

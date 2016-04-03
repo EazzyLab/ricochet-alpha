@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		DD961A391CAD621C00A5A60E /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD961A381CAD621C00A5A60E /* RegisterViewController.swift */; };
-		DD961A401CAE649500A5A60E /* loginBackground.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = DD961A3F1CAE649500A5A60E /* loginBackground.mp4 */; };
+		DD961A421CB0822800A5A60E /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD961A411CB0822800A5A60E /* MainViewController.swift */; };
 		DDDF39C31CACB063005460FD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDDF39C21CACB063005460FD /* AppDelegate.swift */; };
 		DDDF39C51CACB063005460FD /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDDF39C41CACB063005460FD /* LoginViewController.swift */; };
 		DDDF39CA1CACB063005460FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DDDF39C91CACB063005460FD /* Assets.xcassets */; };
@@ -17,7 +17,7 @@
 
 /* Begin PBXFileReference section */
 		DD961A381CAD621C00A5A60E /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
-		DD961A3F1CAE649500A5A60E /* loginBackground.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = loginBackground.mp4; sourceTree = "<group>"; };
+		DD961A411CB0822800A5A60E /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		DDDF39BF1CACB063005460FD /* ricochetAlphaNoStoryboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ricochetAlphaNoStoryboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDDF39C21CACB063005460FD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DDDF39C41CACB063005460FD /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -57,12 +57,12 @@
 			isa = PBXGroup;
 			children = (
 				DDDF39C21CACB063005460FD /* AppDelegate.swift */,
+				DD961A411CB0822800A5A60E /* MainViewController.swift */,
 				DDDF39C41CACB063005460FD /* LoginViewController.swift */,
 				DD961A381CAD621C00A5A60E /* RegisterViewController.swift */,
 				DDDF39C91CACB063005460FD /* Assets.xcassets */,
 				DDDF39CB1CACB063005460FD /* LaunchScreen.storyboard */,
 				DDDF39CE1CACB063005460FD /* Info.plist */,
-				DD961A3F1CAE649500A5A60E /* loginBackground.mp4 */,
 			);
 			path = ricochetAlphaNoStoryboard;
 			sourceTree = "<group>";
@@ -126,7 +126,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD961A401CAE649500A5A60E /* loginBackground.mp4 in Resources */,
 				DDDF39CD1CACB063005460FD /* LaunchScreen.storyboard in Resources */,
 				DDDF39CA1CACB063005460FD /* Assets.xcassets in Resources */,
 			);
@@ -142,6 +141,7 @@
 				DD961A391CAD621C00A5A60E /* RegisterViewController.swift in Sources */,
 				DDDF39C51CACB063005460FD /* LoginViewController.swift in Sources */,
 				DDDF39C31CACB063005460FD /* AppDelegate.swift in Sources */,
+				DD961A421CB0822800A5A60E /* MainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
