@@ -8,7 +8,8 @@
 
 import UIKit
 
-var loggedIn = true
+var loggedIn = false
+
 
 class MainViewController: UIViewController {
     
@@ -16,15 +17,10 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         self.navigationController?.navigationBarHidden = true
         
-        let tabBar = UITabBar()
-        tabBar.barTintColor = UIColor.blueColor()
-        
-        view.addSubview(tabBar)
-        view.addConstraintsWithFormat("H:|[v0]|", options: nil, views: tabBar)
-        view.addConstraintsWithFormat("V:[v0(50)]|", options: nil, views: tabBar)
+
         
         
         view.backgroundColor = UIColor.greenColor()
@@ -36,11 +32,16 @@ class MainViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
         
+        self.tabBarController?.tabBar.hidden = false
+        
+        let vcArray = self.navigationController?.viewControllers
+        print(vcArray)
+        
         if !loggedIn {
             
             let loginController = LoginViewController()
-            navigationController?.pushViewController(loginController, animated: true)
-        
+//            navigationController?.pushViewController(loginController, animated: true)
+            self.navigationController?.pushViewController(loginController, animated: true)
         }
     }
 

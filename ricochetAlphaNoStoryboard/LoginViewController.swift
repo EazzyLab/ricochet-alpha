@@ -20,7 +20,7 @@ class LoginViewController: UIViewController {
         
         // Do any additional setup after loading the view, typically from a nib.
         
-        
+        self.tabBarController?.tabBar.hidden = true
         self.navigationController?.navigationBar.hidden = true
         self.hideKeyboardWhenTappedAround()
         
@@ -34,6 +34,8 @@ class LoginViewController: UIViewController {
         setupViews()
         
     }
+    
+    
     
     deinit {
     
@@ -191,7 +193,7 @@ class LoginViewController: UIViewController {
         view.centerHorizontallyWithSize(self.view, newView: takeTourButton, size: nil)
         view.centerHorizontallyWithSize(self.view, newView: loginActivityIndicator, size: nil)
         
-        view.addConstraintsWithFormat("H:|[v0]|", options: nil, views: backgroundImageView)
+//        view.addConstraintsWithFormat("H:|[v0]|", options: nil, views: backgroundImageView)
         view.addConstraintsWithFormat("H:[v0(250)]", options: nil, views: usernameTextField)
         view.addConstraintsWithFormat("H:[v0(250)]", options: nil, views: passwordTextField)
         view.addConstraintsWithFormat("H:[v0(150)]", options: nil, views: logoImageView)

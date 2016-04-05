@@ -17,6 +17,7 @@ class RegisterViewController: UIViewController {
         super.viewDidLoad()
         
         keyoardNotificationBool = true
+        self.tabBarController?.tabBar.hidden = true
         
         
         self.hideKeyboardWhenTappedAround()

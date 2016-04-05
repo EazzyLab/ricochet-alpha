@@ -20,17 +20,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         window?.makeKeyAndVisible()
         
-        let mainController = MainViewController()
-        
-        //loading directly woarking view
-//        let registerController = RegisterViewController()
-        let navigationController:UINavigationController
-        
-        navigationController = UINavigationController(rootViewController: mainController)
+//        let mainController = MainViewController()
+//        let navigationController:UINavigationController
+//        navigationController = UINavigationController(rootViewController: mainController)
        
         
         application.statusBarHidden = true
-        window?.rootViewController = navigationController
+        window?.rootViewController = CustomTabBarController()
+        
+        UITabBar.appearance().tintColor = UIColor(red: 70/255, green: 146/255, blue: 250/255, alpha: 1)
         
         return true
     }
@@ -47,6 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+        
     }
 
     func applicationDidBecomeActive(application: UIApplication) {
