@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
+      "filename" : "picture_desert.jpg",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Multiply Filled-100.png",
       "scale" : "2x"
     },
     {

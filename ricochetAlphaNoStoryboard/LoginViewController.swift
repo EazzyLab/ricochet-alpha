@@ -303,9 +303,17 @@ extension UIView {
              format = "V:[view]-(<=0)-[newView]"
         }
         superView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(format, options: NSLayoutFormatOptions.AlignAllCenterX, metrics: nil, views: ["view": superView, "newView": newView]))
-    
     }
-    
+    func centerVerticallyWithSize(superView: UIView, newView: UIView, size: NSInteger?){
+        
+        var format:String
+        if let specifiedSize = size {
+            format = "V:[view]-(<=0)-[newView(\(specifiedSize))]"
+        }else {
+            format = "V:[view]-(<=0)-[newView]"
+        }
+        superView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(format, options: NSLayoutFormatOptions.AlignAllCenterY, metrics: nil, views: ["view": superView, "newView": newView]))
+    }
     func addConstraintsWithFormat(format: String, options:NSLayoutFormatOptions?, views: UIView...) {
         var viewsDictionnary = [String: UIView]()
         for (index, view) in views.enumerate() {
@@ -343,4 +351,12 @@ class CustomTextField: UITextField {
         newBounds.size.width -= padding.left + padding.right
         return newBounds
     }
+}
+
+extension UIColor {
+    
+    static func rgb(red: CGFloat, green: CGFloat, blue: CGFloat) -> UIColor {
+        return UIColor(red: red/255, green: green/255, blue: blue/255, alpha: 1)
+    }
+    
 }

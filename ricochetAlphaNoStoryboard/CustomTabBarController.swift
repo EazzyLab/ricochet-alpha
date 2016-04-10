@@ -9,42 +9,49 @@
 import UIKit
 
 class CustomTabBarController: UITabBarController, UITabBarControllerDelegate {
+
     
-    let cameraControllerTest = CameraViewController()
-    let cameraViewController = CameraViewController()
+    let cameraTabButton = UIViewController()
+    let cameraController = CameraViewController()
 
     override func viewDidLoad() {
         
         super.viewDidLoad()
         
+        
+        
         self.delegate = self
         
-        let mainController = MainViewController()
+        let mainCollectionViewLayout = UICollectionViewFlowLayout()
+        mainCollectionViewLayout.minimumInteritemSpacing = 0
+        mainCollectionViewLayout.minimumLineSpacing = 0
+        let mainController = MainViewController(collectionViewLayout: mainCollectionViewLayout)
         let mainNavigationController = UINavigationController(rootViewController: mainController)
-        mainNavigationController.title = "Home"
-        mainNavigationController.tabBarItem.image = UIImage(named: "icon_home")
+        mainNavigationController.title = "Received"
+        mainNavigationController.tabBarItem.image = UIImage(named: "icon_received")
+        
+        let sentPictures = SentPicturesViewController()
+        let sentPicturesNavigationController = UINavigationController(rootViewController: sentPictures)
+        sentPicturesNavigationController.title = "Sent"
+        sentPicturesNavigationController.tabBarItem.image = UIImage(named: "icon_sent")
         
         
-//         cameraNavigationController = UINavigationController(rootViewController: cameraControllerTest)
-//        let cameraController = CameraViewController();
-//        let cameraNavigationController = UINavigationController(rootViewController: cameraController)
-
-//        cameraNavigationController.title = "Camera"
-//        cameraNavigationController.tabBarItem.image = UIImage(named: "icon_camera")
+        cameraTabButton.title = "Create"
+        cameraTabButton.tabBarItem.image = UIImage(named: "icon_create")
         
         
         let searchController = SearchViewController()
         let searchNavigationController = UINavigationController(rootViewController: searchController)
-        searchNavigationController.title = "Search"
-        searchNavigationController.tabBarItem.image = UIImage(named: "icon_search")
+        searchNavigationController.title = "Cemetery"
+        searchNavigationController.tabBarItem.image = UIImage(named: "icon_cemetery")
         
         let profileController = UIViewController()
         let profileNavigationController = UINavigationController(rootViewController: profileController)
         profileNavigationController.title = "Profile"
-        profileNavigationController.tabBarItem.image = UIImage(named: "icon_gear")
+        profileNavigationController.tabBarItem.image = UIImage(named: "icon_profile")
         
         
-        viewControllers = [mainNavigationController, cameraViewController, searchNavigationController, profileNavigationController]
+        viewControllers = [mainNavigationController, sentPicturesNavigationController, cameraTabButton, searchNavigationController, profileNavigationController]
         
         tabBar.translucent = false
         
@@ -59,22 +66,17 @@ class CustomTabBarController: UITabBarController, UITabBarControllerDelegate {
 
     }
     
-//    override func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem) {
-//
-//    }
-//    
-//     func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController)
-//    
-//        }
-    
-    
     func tabBarController(tabBarController: UITabBarController, shouldSelectViewController viewController: UIViewController) -> Bool {
-        if viewController == cameraViewController {
-            self.presentViewController(cameraViewController, animated: true, completion: nil)
+        
+        if viewController == cameraTabButton {
+        
+            self.presentViewController(cameraController, animated: true, completion: nil)
             return false
+        }else {
+        
+            return true
         }
-        return true
-        }
-
+        
+    }
 }
 

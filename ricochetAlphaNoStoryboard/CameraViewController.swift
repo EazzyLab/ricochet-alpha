@@ -15,10 +15,17 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     var stillImageOutput : AVCaptureStillImageOutput?
     var previewLayer : AVCaptureVideoPreviewLayer?
     var superViewBounds: CGRect!
+    var backCamera: AVCaptureDevice?
+    var flash: Bool = false
+    var inPreviewMode: Bool = false
     
     init() {
         super.init(nibName: nil, bundle: nil)
         self.hidesBottomBarWhenPushed = true
+    }
+    
+    deinit {
+        print("deinit CameraViewController")
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -53,11 +60,28 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         
         super.viewWillAppear(false)
         
+        flash = false
+        
         captureSession = AVCaptureSession()
         captureSession?.sessionPreset = AVCaptureSessionPreset1920x1080
         
-         var backCamera = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
-        
+        backCamera = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
+//        if (backCamera!.hasFlash){
+//            do {
+//                try backCamera!.lockForConfiguration()
+//                if (backCamera!.flashMode == AVCaptureFlashMode.Off && flash == true) {
+//                    backCamera!.flashMode = AVCaptureFlashMode.On
+//                    print("flash On")
+//                }else if (backCamera!.flashMode == AVCaptureFlashMode.On && flash == false){
+//                    backCamera!.flashMode = AVCaptureFlashMode.Off
+//                    print("flash Off")
+//                }
+//                backCamera.unlockForConfiguration()
+//            }catch {
+//                print(error)
+//            }
+//        }
+//        
         
         do {
             
@@ -124,63 +148,196 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         return button
     }()
     
+    let galleryButton: UIButton = {
+        let button = UIButton()
+        button.setBackgroundImage(UIImage(named: "gallery_button"), forState: .Normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        
+        return button
+    }()
+    
+    let flashButton: UIButton = {
+        let button = UIButton()
+        button.setBackgroundImage(UIImage(named: "flashOn_button"), forState: .Normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        
+        return button
+    }()
+    
+    let previewPictureImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.hidden = true
+    
+        return imageView
+    }()
+    
+    let sendButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setBackgroundImage(UIImage(named: "send_button"), forState: .Normal)
+        button.hidden = true
+        
+        return button
+    }()
+
     func setupViews() {
         
-//        tabBarController?.view.addSubview(cameraView)
-//        cameraView.addSubview(takePictureButton)
-//        
-//        tabBarController?.view.bounds
-//        tabBarController?.view.addConstraintsWithFormat("H:|[v0]|", options: nil, views: cameraView)
-//        tabBarController?.view.addConstraintsWithFormat("V:|[v0]|", options: nil, views: cameraView)
-//
-//        cameraView.centerHorizontallyWithSize(cameraView, newView: takePictureButton, size: nil)
-//        cameraView.addConstraintsWithFormat("H:[v0(65)]", options: nil, views: takePictureButton)
-//        cameraView.addConstraintsWithFormat("V:[v0(65)]-15-|", options: nil, views: takePictureButton)
         
         view.addSubview(cameraView)
+        view.addSubview(previewPictureImageView)
         view.addSubview(takePictureButton)
         view.addSubview(closeButton)
+        view.addSubview(galleryButton)
+        view.addSubview(flashButton)
+        view.addSubview(sendButton)
+        
+        view.addConstraintsWithFormat("H:|[v0]|", options: nil, views: previewPictureImageView)
+        view.addConstraintsWithFormat("V:|[v0]|", options: nil, views: previewPictureImageView)
         
         view.centerHorizontallyWithSize(self.view, newView: takePictureButton, size: nil)
         view.addConstraintsWithFormat("H:[v0(65)]", options: nil, views: takePictureButton)
         view.addConstraintsWithFormat("V:[v0(65)]-15-|", options: nil, views: takePictureButton)
         
-        view.addConstraintsWithFormat("H:|-20-[v0(50)]", options: nil, views: closeButton)
-        view.addConstraintsWithFormat("V:|-20-[v0(50)]", options: nil, views: closeButton)
+        view.addConstraintsWithFormat("H:|-20-[v0(35)]", options: nil, views: closeButton)
+        view.addConstraintsWithFormat("V:|-20-[v0(35)]", options: nil, views: closeButton)
         
-        print("SuperView Bounds : " + String(view.bounds))
-        print("CameraView Bounds : " + String(cameraView.bounds))
+        view.addConstraintsWithFormat("H:|-25-[v0(25)]", options: nil, views: galleryButton)
+        view.addConstraintsWithFormat("V:[v0(25)]-32.5-|", options: nil, views: galleryButton)
+        
+        view.addConstraintsWithFormat("H:[v0(30)]-20-|", options: nil, views: flashButton)
+        view.addConstraintsWithFormat("V:|-20-[v0(30)]", options: nil, views: flashButton)
+        
+        view.addConstraintsWithFormat("H:[v0(50)]-50-|", options: nil, views: sendButton)
+        view.addConstraintsWithFormat("V:[v0(50)]-45-|", options: nil, views: sendButton)
+        
+
+        
         
           takePictureButton.addTarget(self, action: #selector(self.takePictureButtonClicked(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        closeButton.addTarget(self, action: #selector(self.closeButtonClicked(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        flashButton.addTarget(self, action: #selector(self.flashButtonClicked(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        galleryButton.addTarget(self, action: #selector(self.galleryButtonClicked(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         
         
         
         
     
+    }
+    
+    func galleryButtonClicked(sender: UIButton!) {
+        
+        var imagePicker = UIImagePickerController()
+        imagePicker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+        
+        presentViewController(imagePicker, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
+        
+        previewPictureImageView.image = image
+        self.previewPictureImageView.hidden = false
+        self.inPreviewMode = true
+        self.flashButton.hidden = true
+        self.takePictureButton.hidden = true
+        self.galleryButton.hidden = true
+        
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func takePictureButtonClicked(sender: UIButton!) {
         
-        let vcArray = self.navigationController?.viewControllers
-        print(vcArray)
-//        let picturePreviewController = PicturePreviewViewController()
-//        self.navigationController?.pushViewController(picturePreviewController, animated: false)
-//        cameraView.backgroundColor = UIColor.cyanColor()
+        if flash {
+            if (backCamera!.hasFlash) {
+                do {
+                    try backCamera?.lockForConfiguration()
+                    backCamera?.flashMode = AVCaptureFlashMode.On
+                    backCamera?.unlockForConfiguration()
+                }catch {
+                print(error)
+                }
+            }
+        }else {
+            do {
+                try backCamera?.lockForConfiguration()
+                backCamera?.flashMode = AVCaptureFlashMode.Off
+                backCamera?.unlockForConfiguration()
+            }catch {
+                print(error)
+            }
+        }
         
-//        navigationController?.popViewControllerAnimated(true)
-        
-//        self.tabBarController?.selectedIndex = 0
-        
-        self.dismissViewControllerAnimated(true, completion: nil)
-    
+        if let  videoConnection = stillImageOutput?.connectionWithMediaType(AVMediaTypeVideo) {
+            videoConnection.videoOrientation = AVCaptureVideoOrientation.Portrait
+            stillImageOutput?.captureStillImageAsynchronouslyFromConnection(videoConnection, completionHandler: {(sampleBuffer, error) in
+                
+                if sampleBuffer != nil {
+                    
+                    var imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sampleBuffer)
+                    var dataProvider = CGDataProviderCreateWithCFData(imageData)
+                    var cgImageRef = CGImageCreateWithJPEGDataProvider(dataProvider, nil, true, .RenderingIntentDefault)
+                    
+                    var image = UIImage(CGImage: cgImageRef!, scale: 1.0, orientation: UIImageOrientation.Right)
+                    
+                    self.previewPictureImageView.image = image
+                    self.previewPictureImageView.hidden = false
+                    self.inPreviewMode = true
+                    self.flashButton.hidden = true
+                    self.takePictureButton.hidden = true
+                    self.galleryButton.hidden = true
+                    self.sendButton.hidden = false
+
+                }
+            })
+        }
     }
     
     func closeButtonClicked(sender: UIButton!) {
         
-        navigationController?.popViewControllerAnimated(true)
-        
+        if inPreviewMode {
+            previewPictureImageView.hidden = true
+            self.flashButton.hidden = false
+            self.takePictureButton.hidden = false
+            self.galleryButton.hidden = false
+            inPreviewMode = false
+            self.sendButton.hidden = true
+        }else {
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
     
     }
-
     
+    func flashButtonClicked(sender: UIButton!) {
+        
+//        if (backCamera.hasFlash){
+//            do {
+//                try backCamera.lockForConfiguration()
+//                if (backCamera.flashMode == AVCaptureFlashMode.Off && flash == true) {
+//                    backCamera.flashMode = AVCaptureFlashMode.On
+//                    print("flash On")
+//                }else if (backCamera.flashMode == AVCaptureFlashMode.On && flash == false){
+//                    backCamera.flashMode = AVCaptureFlashMode.Off
+//                    print("flash Off")
+//                }
+//                backCamera.unlockForConfiguration()
+//            }catch {
+//                print(error)
+//            }
+//        }
+        
+        
+        if flash == true {
+            flashButton.setBackgroundImage(UIImage(named: "flashOn_button"), forState: .Normal)
+            flash = false
+            
+            }
+        else if flash == false {
+            
+            flashButton.setBackgroundImage(UIImage(named: "flashOff_button"), forState: .Normal)
+            flash = true
+        }
+    }
 }

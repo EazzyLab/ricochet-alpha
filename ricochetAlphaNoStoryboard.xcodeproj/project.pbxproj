@@ -13,10 +13,14 @@
 		DD961A461CB0C1F600A5A60E /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD961A451CB0C1F600A5A60E /* CameraViewController.swift */; };
 		DD961A481CB2173700A5A60E /* PicturePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD961A471CB2173700A5A60E /* PicturePreviewViewController.swift */; };
 		DD961A4A1CB2AE1200A5A60E /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD961A491CB2AE1200A5A60E /* SearchViewController.swift */; };
+		DD961A4C1CB4840800A5A60E /* LoginViewDesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD961A4B1CB4840800A5A60E /* LoginViewDesign.swift */; };
+		DD961A501CB5AB7A00A5A60E /* SentPicturesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD961A4F1CB5AB7A00A5A60E /* SentPicturesViewController.swift */; };
 		DDDF39C31CACB063005460FD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDDF39C21CACB063005460FD /* AppDelegate.swift */; };
 		DDDF39C51CACB063005460FD /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDDF39C41CACB063005460FD /* LoginViewController.swift */; };
 		DDDF39CA1CACB063005460FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DDDF39C91CACB063005460FD /* Assets.xcassets */; };
 		DDDF39CD1CACB063005460FD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DDDF39CB1CACB063005460FD /* LaunchScreen.storyboard */; };
+		DDF1DD541CB830F2004D8F55 /* ShowReceivedImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDF1DD531CB830F2004D8F55 /* ShowReceivedImageViewController.swift */; };
+		DDF1DD5B1CB83DFA004D8F55 /* PictureReceived.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDF1DD5A1CB83DFA004D8F55 /* PictureReceived.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,12 +30,16 @@
 		DD961A451CB0C1F600A5A60E /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		DD961A471CB2173700A5A60E /* PicturePreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PicturePreviewViewController.swift; path = ../PicturePreviewViewController.swift; sourceTree = "<group>"; };
 		DD961A491CB2AE1200A5A60E /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		DD961A4B1CB4840800A5A60E /* LoginViewDesign.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewDesign.swift; sourceTree = "<group>"; };
+		DD961A4F1CB5AB7A00A5A60E /* SentPicturesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SentPicturesViewController.swift; path = ../SentPicturesViewController.swift; sourceTree = "<group>"; };
 		DDDF39BF1CACB063005460FD /* ricochetAlphaNoStoryboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ricochetAlphaNoStoryboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDDF39C21CACB063005460FD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DDDF39C41CACB063005460FD /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		DDDF39C91CACB063005460FD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DDDF39CC1CACB063005460FD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DDDF39CE1CACB063005460FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DDF1DD531CB830F2004D8F55 /* ShowReceivedImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowReceivedImageViewController.swift; sourceTree = "<group>"; };
+		DDF1DD5A1CB83DFA004D8F55 /* PictureReceived.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PictureReceived.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,19 +72,32 @@
 		DDDF39C11CACB063005460FD /* ricochetAlphaNoStoryboard */ = {
 			isa = PBXGroup;
 			children = (
+				DDF1DD591CB8321D004D8F55 /* Models */,
+				DD961A4F1CB5AB7A00A5A60E /* SentPicturesViewController.swift */,
 				DD961A471CB2173700A5A60E /* PicturePreviewViewController.swift */,
 				DDDF39C21CACB063005460FD /* AppDelegate.swift */,
 				DD961A411CB0822800A5A60E /* MainViewController.swift */,
+				DDF1DD531CB830F2004D8F55 /* ShowReceivedImageViewController.swift */,
 				DD961A451CB0C1F600A5A60E /* CameraViewController.swift */,
 				DD961A431CB0BFA400A5A60E /* CustomTabBarController.swift */,
 				DD961A491CB2AE1200A5A60E /* SearchViewController.swift */,
 				DDDF39C41CACB063005460FD /* LoginViewController.swift */,
+				DD961A4B1CB4840800A5A60E /* LoginViewDesign.swift */,
 				DD961A381CAD621C00A5A60E /* RegisterViewController.swift */,
 				DDDF39C91CACB063005460FD /* Assets.xcassets */,
 				DDDF39CB1CACB063005460FD /* LaunchScreen.storyboard */,
 				DDDF39CE1CACB063005460FD /* Info.plist */,
 			);
 			path = ricochetAlphaNoStoryboard;
+			sourceTree = "<group>";
+		};
+		DDF1DD591CB8321D004D8F55 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				DDF1DD5A1CB83DFA004D8F55 /* PictureReceived.swift */,
+			);
+			name = Models;
+			path = ../Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -150,13 +171,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD961A501CB5AB7A00A5A60E /* SentPicturesViewController.swift in Sources */,
 				DD961A391CAD621C00A5A60E /* RegisterViewController.swift in Sources */,
 				DDDF39C51CACB063005460FD /* LoginViewController.swift in Sources */,
+				DDF1DD5B1CB83DFA004D8F55 /* PictureReceived.swift in Sources */,
 				DD961A4A1CB2AE1200A5A60E /* SearchViewController.swift in Sources */,
 				DD961A441CB0BFA400A5A60E /* CustomTabBarController.swift in Sources */,
 				DD961A481CB2173700A5A60E /* PicturePreviewViewController.swift in Sources */,
+				DDF1DD541CB830F2004D8F55 /* ShowReceivedImageViewController.swift in Sources */,
 				DDDF39C31CACB063005460FD /* AppDelegate.swift in Sources */,
 				DD961A421CB0822800A5A60E /* MainViewController.swift in Sources */,
+				DD961A4C1CB4840800A5A60E /* LoginViewDesign.swift in Sources */,
 				DD961A461CB0C1F600A5A60E /* CameraViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
